@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta content="TransparentLC" name="author">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="shortcut icon" href="iconr-256px.png">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://cdn.jsdelivr.net/npm/mdui@1/dist/css/mdui.min.css" rel="stylesheet">
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+    <script>new URL(location.href).searchParams.has("debug") && (document.write(atob('PHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vZXJ1ZGEiPjwvc2NyaXB0PjxzY3JpcHQ+ZXJ1ZGEuaW5pdCgpPC9zY3JpcHQ+')))</script>
+    <title>水印姬</title>
+</head>
+<body class="mdui-appbar-with-toolbar mdui-theme-layout-auto mdui-theme-primary-pink mdui-theme-accent-pink">
+    <header class="mdui-appbar mdui-appbar-fixed">
+        <div class="mdui-color-theme mdui-toolbar">
+            <div class="mdui-container mdui-center" style="color:#fff!important;max-width:720px;display:flex!important;align-items:center">
+                <span class="mdui-typo-title">水印姬</span>
+                <div class="mdui-toolbar-spacer"></div>
+                <a class="mdui-btn mdui-btn-icon" mdui-dialog="{target:'#about'}" mdui-tooltip="{content:'关于'}"><i class="mdui-icon material-icons">info_outline</i></a>
+                <a href="https://github.com/TransparentLC/watermarker" target="_blank" rel="noopener noreferrer" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-tooltip="{content:'查看 GitHub'}">
+                    <svg viewBox="0 0 36 36" class="mdui-icon" style="width:24px;height:24px;">
+                        <path fill-rule="evenodd" clip-rule="evenodd" fill="#fff" d="M18,1.4C9,1.4,1.7,8.7,1.7,17.7c0,7.2,4.7,13.3,11.1,15.5c0.8,0.1,1.1-0.4,1.1-0.8c0-0.4,0-1.4,0-2.8c-4.5,1-5.5-2.2-5.5-2.2c-0.7-1.9-1.8-2.4-1.8-2.4c-1.5-1,0.1-1,0.1-1c1.6,0.1,2.5,1.7,2.5,1.7c1.5,2.5,3.8,1.8,4.7,1.4c0.1-1.1,0.6-1.8,1-2.2c-3.6-0.4-7.4-1.8-7.4-8.1c0-1.8,0.6-3.2,1.7-4.4c-0.2-0.4-0.7-2.1,0.2-4.3c0,0,1.4-0.4,4.5,1.7c1.3-0.4,2.7-0.5,4.1-0.5c1.4,0,2.8,0.2,4.1,0.5c3.1-2.1,4.5-1.7,4.5-1.7c0.9,2.2,0.3,3.9,0.2,4.3c1,1.1,1.7,2.6,1.7,4.4c0,6.3-3.8,7.6-7.4,8c0.6,0.5,1.1,1.5,1.1,3c0,2.2,0,3.9,0,4.5c0,0.4,0.3,0.9,1.1,0.8c6.5-2.2,11.1-8.3,11.1-15.5C34.3,8.7,27,1.4,18,1.4z">
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="mdui-container" style="max-width:720px" v-scope @vue:mounted="mounted">
+        <div v-if="false" class="mdui-center mdui-spinner mdui-m-a-5"></div>
+        <div v-cloak>
+            <input id="bg-file" @change="bgFileChange" type="file" class="mdui-hidden">
+            <input id="wm-file" @change="wmFileChange" type="file" class="mdui-hidden">
+            <input id="wm-textcolor" @change="render" v-model="wmTextColor" type="color" class="mdui-hidden">
+            <input id="wm-textshadowcolor" @change="render" v-model="wmTextShadowColor" type="color" class="mdui-hidden">
+
+            <div class="mdui-row mdui-m-y-1">
+                <div class="mdui-col-xs-6">
+                    <button @click="bgFileElement.click" class="mdui-btn mdui-btn-block mdui-text-color-theme">选择图片</button>
+                </div>
+                <div class="mdui-col-xs-6">
+                    <button @click="saveResult" class="mdui-btn mdui-btn-block mdui-text-color-theme">保存图片</button>
+                </div>
+            </div>
+
+            <canvas id="wm-canvas" class="mdui-m-y-1 mdui-shadow-3 mdui-img-fluid mdui-img-rounded mdui-center" style="max-height:480px"></canvas>
+
+            <div class="mdui-tab mdui-tab-full-width" mdui-tab>
+                <a href="#watermark" class="mdui-ripple">水印类型</a>
+                <a href="#style" class="mdui-ripple">样式</a>
+                <a href="#layout" class="mdui-ripple">布局</a>
+                <a href="#saving" class="mdui-ripple">保存</a>
+            </div>
+            <div id="watermark" class="mdui-row mdui-p-a-1">
+                <div style="display:flex" class="mdui-p-x-1">
+                    <label class="mdui-radio" style="flex-grow:1">
+                        <input v-model="mode" @change="render" type="radio" name="m" value="text" checked>
+                        <i class="mdui-radio-icon"></i>文字水印
+                    </label>
+                    <button @click="wmTextChange" class="mdui-btn mdui-text-color-theme-accent">编辑文字</button>
+                </div>
+                <div style="display:flex" class="mdui-p-x-1">
+                    <label class="mdui-radio" style="flex-grow:1">
+                        <input v-model="mode" @change="render" type="radio" name="m" value="image">
+                        <i class="mdui-radio-icon"></i>图片水印
+                    </label>
+                    <button @click="wmFileElement.click" class="mdui-btn mdui-text-color-theme-accent">选择图片</button>
+                </div>
+            </div>
+            <div id="style" class="mdui-row mdui-p-a-1">
+                <div class="mdui-col-xs-12">
+                    <div class="mdui-textfield-label">不透明度</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="opacity" @change="render" type="range" step="1" min="0" max="100">
+                    </label>
+                </div>
+                <div class="mdui-col-xs-6">
+                    <div class="mdui-textfield-label">旋转角度</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="angle" @change="render" type="range" step="1" min="-180" max="180">
+                    </label>
+                </div>
+                <div class="mdui-col-xs-6">
+                    <div class="mdui-textfield-label">缩放</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="scale" @change="render" type="range" step="1" min="0" max="200">
+                    </label>
+                </div>
+                <div class="mdui-col-xs-6">
+                    <div class="mdui-textfield-label">字号</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="fontSize" @change="render" type="range" step="1" min="8" max="128">
+                    </label>
+                </div>
+                <div class="mdui-col-xs-6">
+                    <div class="mdui-textfield-label">字重</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="fontWeight" @change="render" type="range" step="100" min="100" max="900">
+                    </label>
+                </div>
+                <div class="mdui-col-xs-12">
+                    <div class="mdui-textfield-label">文字水印样式</div>
+                </div>
+                <div class="mdui-col-xs-6 mdui-col-sm-3">
+                    <div style="display:flex">
+                        <label class="mdui-switch" style="flex-grow:1">
+                            <input v-model="useCenter" @change="render" type="checkbox">
+                            <i class="mdui-switch-icon mdui-m-r-2"></i>文字居中
+                        </label>
+                    </div>
+                </div>
+                <div class="mdui-col-xs-6 mdui-col-sm-3">
+                    <div style="display:flex">
+                        <label class="mdui-switch" style="flex-grow:1">
+                            <input v-model="useStroke" @change="render" type="checkbox">
+                            <i class="mdui-switch-icon mdui-m-r-2"></i>使用空心
+                        </label>
+                    </div>
+                </div>
+                <div class="mdui-col-xs-6 mdui-col-sm-3">
+                    <div style="display:flex">
+                        <label class="mdui-switch" style="flex-grow:1">
+                            <input v-model="useItalic" @change="render" type="checkbox">
+                            <i class="mdui-switch-icon mdui-m-r-2"></i>使用斜体
+                        </label>
+                    </div>
+                </div>
+                <div class="mdui-col-xs-6 mdui-col-sm-3">
+                    <div style="display:flex">
+                        <label class="mdui-switch" style="flex-grow:1">
+                            <input v-model="useShadow" @change="render" type="checkbox">
+                            <i class="mdui-switch-icon mdui-m-r-2"></i>使用阴影
+                        </label>
+                    </div>
+                </div>
+                <div class="mdui-col-xs-12 mdui-col-sm-6">
+                    <button @click="wmTextColorElement.click" @change="render" class="mdui-btn mdui-btn-block mdui-text-color-theme-accent">文本颜色 ({{ wmTextColor }})</button>
+                </div>
+                <div class="mdui-col-xs-12 mdui-col-sm-6">
+                    <button @click="wmTextShadowColorElement.click" @change="render" class="mdui-btn mdui-btn-block mdui-text-color-theme-accent">阴影颜色 ({{ wmTextShadowColor }})</button>
+                </div>
+            </div>
+            <div id="layout" class="mdui-row mdui-p-a-1">
+                <div class="mdui-col-xs-6">
+                    <div class="mdui-textfield-label">水平偏移</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="offsetX" @change="render" type="range" step="1" min="0" max="100">
+                    </label>
+                </div>
+                <div class="mdui-col-xs-6">
+                    <div class="mdui-textfield-label">垂直偏移</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="offsetY" @change="render" type="range" step="1" min="0" max="100">
+                    </label>
+                </div>
+                <div class="mdui-col-xs-6">
+                    <div class="mdui-textfield-label">水平间隔</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="paddingX" @change="render" type="range" step="1" min="-100" max="100">
+                    </label>
+                </div>
+                <div class="mdui-col-xs-6">
+                    <div class="mdui-textfield-label">垂直间隔</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="paddingY" @change="render" type="range" step="1" min="-100" max="100">
+                    </label>
+                </div>
+            </div>
+            <div id="saving" class="mdui-row mdui-p-a-1">
+                <div class="mdui-col-xs-12">
+                    <div class="mdui-textfield-label">保存格式</div>
+                </div>
+                <div class="mdui-col-xs-4" style="display:flex">
+                    <label class="mdui-radio" style="flex-grow:1">
+                        <input v-model="saveFormat" type="radio" name="f" value="image/jpeg|.jpg" checked>
+                        <i class="mdui-radio-icon"></i>JPEG
+                    </label>
+                </div>
+                <div class="mdui-col-xs-4" style="display:flex">
+                    <label class="mdui-radio" style="flex-grow:1">
+                        <input v-model="saveFormat" type="radio" name="f" value="image/webp|.webp">
+                        <i class="mdui-radio-icon"></i>WebP
+                    </label>
+                </div>
+                <div class="mdui-col-xs-4" style="display:flex">
+                    <label class="mdui-radio" style="flex-grow:1">
+                        <input v-model="saveFormat" type="radio" name="f" value="image/png|.png">
+                        <i class="mdui-radio-icon"></i>PNG
+                    </label>
+                </div>
+                <div class="mdui-col-xs-12">
+                    <div class="mdui-textfield-label">质量（JPEG/WebP）</div>
+                    <label class="mdui-slider mdui-slider-discrete">
+                        <input v-model="saveQuality" type="range" step="1" min="0" max="100">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mdui-m-y-2 mdui-text-center mdui-typo-caption" style="opacity:.5" v-cloak>© 2022 ✨小透明・宸✨</footer>
+    </main>
+
+    <div id="about" class="mdui-dialog" v-cloak>
+        <div class="mdui-dialog-title">关于</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <h4>水印姬</h4>
+            <p>快速为证件照、小样图、版权图等敏感照片添加全屏水印。</p>
+            <p>这个小工具有很多模仿开源的 Android APP <a href="https://github.com/rosuH/EasyWatermark" target="_blank" rel="noopener noreferrer">“简单水印”</a>的地方，但是我觉得有一个可以跨平台使用的版本会更好 (｡•̀ᴗ-)✧</p>
+            <p><del>名字是随便取的，图标是随便做的，不要在意……</del></p>
+            <h4>特性</h4>
+            <ul>
+                <li>代码完全开源，你可以随意根据自己的需要对代码进行自行部署和修改。</li>
+                <li>除加载页面静态资源以外，不会发送包括统计埋点在内的任何网络请求，当然也不可能悄悄将图片上传到别处从而使你的隐私被泄露。</li>
+                <ul>
+                    <li>对这一点有怀疑的话，你可以随意检查源代码。</li>
+                    <li>由于这个小工具是使用 GitHub Pages 部署的，GitHub 可能会从访客处收集包括 IP 地址日志在内的用户个人信息（参见 <a href="https://docs.github.com/cn/site-policy/privacy-policies/github-privacy-statement#github-%E9%A1%B5%E9%9D%A2" target="_blank" rel="noopener noreferrer">GitHub 的隐私声明</a>），但是并不会影响这个工具的安全性。</li>
+                </ul>
+                <li>支持 PWA 技术。如果你的浏览器支持，可以通过安装 PWA 应用的方式离线使用，获得更好的体验。</li>
+                <li>支持使用文字或图片作为水印内容，任意调节文字样式、旋转角度、不透明度和水印间隔等属性。</li>
+                <li>可以设定保存水印图片时使用的格式及压缩质量。</li>
+            </ul>
+            <p><a href="https://github.com/TransparentLC/watermarker" target="_blank" rel="noopener noreferrer">查看 GitHub 上的源代码</a></p>
+            <p><a href="https://i.akarin.dev/donate/" target="_blank" rel="noopener noreferrer">请小透明喝一瓶肥宅快乐水～(*´∀`)</a></p>
+        </div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-close>OK</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/petite-vue@0.4/dist/petite-vue.iife.js,npm/mdui@1/dist/js/mdui.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

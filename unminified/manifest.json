@@ -1,0 +1,21 @@
+{
+    "name": "水印姬",
+    "description": "快速为证件照、小样图、版权图等敏感照片添加全屏水印。",
+    "start_url": ".",
+    "theme_color": "#e91e63",
+    "background_color": "#fff",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "iconr-1024px.png",
+            "sizes": "1024x1024",
+            "type": "image/png"
+        },
+        {
+            "src": "icon-1024px.png",
+            "sizes": "1024x1024",
+            "type": "image/png",
+            "purpose":"maskable"
+        }
+    ]
+}
