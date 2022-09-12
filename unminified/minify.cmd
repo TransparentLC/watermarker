@@ -1,0 +1,4 @@
+html-minifier-terser --collapse-whitespace --collapse-boolean-attributes --decode-entities --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --remove-empty-attributes --use-short-doctype --sort-attributes --sort-class-name --process-conditional-comments --minify-css --minify-js --output ../index.html index.html
+terser --compress arguments,ecma=2020,module,unsafe_arrows,unsafe_math,unsafe_methods,unsafe_proto,unsafe_regexp,unsafe_symbols,unsafe_undefined,passes=2 --mangle module --format ecma=2020,comments=false --output ../app.js app.js
+terser --compress arguments,ecma=2020,module,unsafe_arrows,unsafe_math,unsafe_methods,unsafe_proto,unsafe_regexp,unsafe_symbols,unsafe_undefined,passes=2 --mangle module --format ecma=2020,comments=false --output ../sw.js sw.js
+jq -r tostring manifest.json > ../manifest.json
