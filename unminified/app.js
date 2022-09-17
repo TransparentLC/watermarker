@@ -170,6 +170,15 @@ PetiteVue.createApp({
     mounted() {
         mdui.updateSliders();
         this.render();
+
+        addEventListener('drop', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            const file = Array.from(e.dataTransfer.files).find(e => e.type.startsWith('image/'));
+            if (file) {
+                this.bgFileChange({target:{files:[file]}});
+            }
+        });
     },
 
     wmTextChange() {

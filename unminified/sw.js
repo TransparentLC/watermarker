@@ -1,4 +1,4 @@
-const CACHE_NAME = 'akarin-watermarker-1662906897229';
+const CACHE_NAME = 'akarin-watermarker-1663406213972';
 
 self.addEventListener('install', e => {
     e.waitUntil(
