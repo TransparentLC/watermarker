@@ -52,10 +52,11 @@ export default defineConfig({
             },
         },
     },
-    // define: {
-    //     __COMMIT_HASH__: `"${childProcess.execSync('git rev-parse HEAD').toString().trim()}"`,
-    //     __COMMIT_TIME__: `"${(new Date(parseInt(childProcess.execSync('git log -1 --format="%at"').toString().trim(), 10) * 1000)).toISOString()}"`,
-    //     __VUE_VERSION__: `"Vue ${JSON.parse(fs.readFileSync('./node_modules/vue/package.json', { encoding: 'utf-8' })).version}"`,
-    //     __VITE_VERSION__: `"Vite ${JSON.parse(fs.readFileSync('./node_modules/vite/package.json', { encoding: 'utf-8' })).version}"`,
-    // },
+    define: {
+        __COMMIT_HASH__: `"${childProcess.execSync('git rev-parse HEAD').toString().trim()}"`,
+        __COMMIT_TIME__: `"${(new Date(parseInt(childProcess.execSync('git log -1 --format="%at"').toString().trim(), 10) * 1000)).toISOString()}"`,
+        __VUE_VERSION__: `"Vue ${JSON.parse(fs.readFileSync('./node_modules/vue/package.json', { encoding: 'utf-8' })).version}"`,
+        __VITE_VERSION__: `"Vite ${JSON.parse(fs.readFileSync('./node_modules/vite/package.json', { encoding: 'utf-8' })).version}"`,
+        __VUETIFY_VERSION__: `"Vuetify ${JSON.parse(fs.readFileSync('./node_modules/vuetify/package.json', { encoding: 'utf-8' })).version}"`,
+    },
 });
