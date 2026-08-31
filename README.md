@@ -1,5 +1,7 @@
 # 水印姬
 
+[<picture><source media="(prefers-color-scheme:dark)" srcset="https://notbyai.fyi/img/developed-by-human-not-by-ai-black-cn.svg"><img src="https://notbyai.fyi/img/developed-by-human-not-by-ai-white-cn.svg" alt="Not By AI" height="20"></picture>](https://notbyai.fyi/)
+
 > [!IMPORTANT]
 >
 > 这个分支是正在开发中的新版本，内容和功能随时会变更。

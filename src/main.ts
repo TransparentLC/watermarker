@@ -3,6 +3,7 @@ import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
 import app from './app.vue';
+import './style.css';
 
 const consoleBadge = (label: string, content: string, color: string) =>
     console.log(
