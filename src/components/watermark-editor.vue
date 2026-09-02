@@ -365,12 +365,8 @@ import {
 } from '@mdi/js';
 import selectFiles from 'select-files';
 import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
-import {
-    watermarkCanvas as canvas,
-    watermarkCanvasSize as canvasSize,
-    watermarkCtx as ctx,
-    src2image,
-} from '../canvas';
+import { watermarkCanvas as canvas, watermarkCanvasSize as canvasSize, watermarkCtx as ctx } from '../canvas';
+import { asyncAtATime, src2image } from '../common';
 import webfonts from '../webfont.json';
 
 defineProps<{ appBarAppend: boolean }>();
@@ -514,14 +510,7 @@ const canvasPrepareSize = async (width: number, height: number) => {
     }
 };
 
-let watermarkDrawing = false;
-let watermarkDrawDelayed = false;
-const watermarkDraw = async () => {
-    if (watermarkDrawing) {
-        watermarkDrawDelayed = true;
-        return;
-    }
-    watermarkDrawing = true;
+const watermarkDraw = asyncAtATime(async () => {
     try {
         switch (watermarkConfig.mode) {
             case 'text': {
@@ -638,15 +627,8 @@ const watermarkDraw = async () => {
         }
     } catch (err) {
         alert(err);
-        throw err;
-    } finally {
-        watermarkDrawing = false;
-        if (watermarkDrawDelayed) {
-            setTimeout(watermarkDraw, 0);
-            watermarkDrawDelayed = false;
-        }
     }
-};
+});
 
 onMounted(watermarkDraw);
 watch(watermarkConfig, watermarkDraw);

@@ -41,12 +41,3 @@ observer.observe(imageCanvas, {
     attributes: true,
     attributeFilter: ['width', 'height'],
 });
-
-export const src2image = (src: string) =>
-    new Promise<HTMLImageElement>((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-        img.src = src;
-    });
