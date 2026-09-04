@@ -369,7 +369,7 @@ import { watermarkCanvas as canvas, watermarkCanvasSize as canvasSize, watermark
 import { asyncAtATime, blobDownload, src2image } from '../common';
 import webfonts from '../webfont.json';
 
-defineProps<{ active: boolean }>();
+const props = defineProps<{ active: boolean }>();
 
 const container = useTemplateRef('canvas-container');
 onMounted(() => {
@@ -640,4 +640,20 @@ const saveWatermark = async () => {
     );
     blobDownload(blob, `watermark-${Date.now()}`);
 };
+
+addEventListener('dragover', e => {
+    if (!props.active) return;
+    e.preventDefault();
+});
+addEventListener('drop', e => {
+    if (!props.active) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const file = Array.from(e.dataTransfer!.files).find(e => e.type.startsWith('image/'));
+    if (file) {
+        URL.revokeObjectURL(watermarkConfig.image);
+        watermarkConfig.image = URL.createObjectURL(file);
+        watermarkConfig.mode = 'image';
+    }
+});
 </script>

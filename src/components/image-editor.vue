@@ -484,4 +484,19 @@ addEventListener('pointerup', e => {
     removeEventListener('pointermove', leftClickHandler);
     lastClickX = lastClickY = null;
 });
+
+addEventListener('dragover', e => {
+    if (!props.active) return;
+    e.preventDefault();
+});
+addEventListener('drop', e => {
+    if (!props.active) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const file = Array.from(e.dataTransfer!.files).find(e => e.type.startsWith('image/'));
+    if (file) {
+        URL.revokeObjectURL(imageConfig.image);
+        imageConfig.image = URL.createObjectURL(file);
+    }
+});
 </script>
