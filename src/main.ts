@@ -39,16 +39,16 @@ createApp(app)
                 themes: {
                     light: {
                         colors: {
-                            primary: '#0288d1',
-                            secondary: '#00b0ff',
+                            primary: '#e91e63',
+                            secondary: '#f50057',
                         },
                     },
                     dark: {
                         dark: true,
                         colors: {
                             background: '#0f0f0f',
-                            primary: '#0288d1',
-                            secondary: '#00b0ff',
+                            primary: '#e91e63',
+                            secondary: '#f50057',
                         },
                     },
                 },
