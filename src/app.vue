@@ -77,9 +77,11 @@
                             </li>
                         </ul>
                         <h4 class="text-title-large">借物表</h4>
-                        <p>Webfont：<a href="https://chinese-font.netlify.app/" rel="noopener noreferrer" target="_blank" class="text-primary">中文网字计划</a></p>
-                        <p>示例用图片水印：<a href="https://booth.pm/ja/items/8665012" rel="noopener noreferrer" target="_blank" class="text-primary">BOOTH @tenori-tei</a></p>
-                        <p>背景图案：<a href="https://rouzao.com/user/copyright" rel="noopener noreferrer" target="_blank" class="text-primary">柔造（“版权保护”设置页面）</a></p>
+                        <ul>
+                            <li>Webfont：<a href="https://chinese-font.netlify.app/" rel="noopener noreferrer" target="_blank" class="text-primary">中文网字计划</a></li>
+                            <li>示例用图片水印：<a href="https://booth.pm/ja/items/8665012" rel="noopener noreferrer" target="_blank" class="text-primary">BOOTH @tenori-tei</a></li>
+                            <li>背景图案：<a href="https://rouzao.com/user/copyright" rel="noopener noreferrer" target="_blank" class="text-primary">柔造（“版权保护”设置页面）</a></li>
+                        </ul>
                     </v-tabs-window-item>
                 </v-tabs-window>
                 <div class="text-center text-medium-emphasis text-body-small mb-4">© 2026 ✨小透明・宸✨</div>
