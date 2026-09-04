@@ -28,7 +28,7 @@
                     color="primary"
                     label="常用文字模板"
                     v-model="textTemplateSelect"
-                    :items="textTemplates.map(e => ({ title: e.replaceAll('\n', '↵'), value: e }))"
+                    :items="textTemplates.map(e => ({ title: e.replaceAll('\n', ' ↵ '), value: e }))"
                     item-title="title"
                     item-value="value"
                     hide-details
@@ -377,8 +377,16 @@ onMounted(() => {
 });
 
 const tab = ref<'source' | 'style'>('source');
+const date = new Date();
 
-const textTemplates = ['仅用于实名认证\n其他用途无效', 'SAMPLE', '仅供展示', '禁止盗用', '版权所有，翻版必究'];
+const textTemplates = [
+    `仅用于办理……业务\n有效期至 ${date.getFullYear()} 年 ${(date.getMonth() + 1).toString().padStart(2, '0')} 月 ${date.getDate().toString().padStart(2, '0')} 日\n其他用途或过期无效`,
+    'SAMPLE',
+    '仅供展示',
+    '禁止盗用',
+    '禁止无授权转载\n禁止用于 AI 学习',
+    '版权所有，翻版必究',
+];
 const textTemplateSelect = ref<string | null>(null);
 
 const patterns = ref(
