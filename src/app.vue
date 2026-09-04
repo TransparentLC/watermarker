@@ -15,7 +15,7 @@
         </v-app-bar>
 
         <v-main>
-            <v-container class="pa-0">
+            <v-container class="pa-0 pb-16">
                 <v-tabs-window v-model="tab">
                     <v-tabs-window-item value="watermark-editor" class="pa-4">
                         <watermark-editor :active="tab === 'watermark-editor'"></watermark-editor>
