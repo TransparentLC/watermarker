@@ -448,7 +448,7 @@ const watermarkConfig = reactive({
     style: {
         canvas: {
             proportion: 100,
-            square: true,
+            square: false,
         },
         background: {
             enabled: false,
