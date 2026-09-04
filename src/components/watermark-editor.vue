@@ -419,15 +419,15 @@ const loadedFontCSS = new Set<string>();
 
 const embossSilhouetteDescription = {
     alpha: {
-        image: 'silhouette-alpha.avif',
+        image: 'assets/silhouette-alpha.avif',
         description: '将不透明部分当成水印图案',
     },
     'black-white': {
-        image: 'silhouette-black-white.avif',
+        image: 'assets/silhouette-black-white.avif',
         description: '将黑色背景的图片上的白色部分当成水印图案',
     },
     'white-black': {
-        image: 'silhouette-white-black.avif',
+        image: 'assets/silhouette-white-black.avif',
         description: '将白色背景的图片上的黑色部分当成水印图案',
     },
 };
@@ -444,7 +444,7 @@ const watermarkConfig = reactive({
         italic: false,
         outline: false,
     },
-    image: 'watermark-sample.webp',
+    image: 'assets/watermark-sample.webp',
     style: {
         canvas: {
             proportion: 100,

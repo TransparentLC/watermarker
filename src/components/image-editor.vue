@@ -309,7 +309,7 @@ const saveImage = async () => {
 };
 
 const imageConfig = reactive({
-    image: 'image-sample.avif',
+    image: 'assets/image-sample.avif',
     repeat: true,
     mode: 'source-over' as 'source-over' | 'overlay' | 'soft-light',
     scale: 100,
@@ -397,6 +397,7 @@ const imageDraw = asyncAtATime(async () => {
     }
 });
 
+imageDraw();
 onMounted(imageDraw);
 watch([imageConfig, () => props.active], imageDraw);
 
