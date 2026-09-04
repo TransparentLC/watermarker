@@ -397,7 +397,6 @@ const imageDraw = asyncAtATime(async () => {
     }
 });
 
-imageDraw();
 onMounted(imageDraw);
 watch([imageConfig, () => props.active], imageDraw);
 

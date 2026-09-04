@@ -464,9 +464,6 @@ const watermarkConfig = reactive({
     },
 });
 
-// 预加载示例水印图片
-document.createElement('img').src = watermarkConfig.image;
-
 const image = useTemplateRef('image');
 const imageWidth = ref(0);
 const imageHeight = ref(0);
