@@ -380,7 +380,7 @@ const tab = ref<'source' | 'style'>('source');
 const date = new Date();
 
 const textTemplates = [
-    `仅用于办理……业务\n有效期至 ${date.getFullYear()} 年 ${(date.getMonth() + 1).toString().padStart(2, '0')} 月 ${date.getDate().toString().padStart(2, '0')} 日\n其他用途或过期无效`,
+    `仅用于办理……业务\n有效期至 ${date.getFullYear()} 年 ${(date.getMonth() + 1).toString()} 月 ${date.getDate().toString()} 日\n其他用途或过期无效`,
     'SAMPLE',
     '仅供展示',
     '禁止盗用',
