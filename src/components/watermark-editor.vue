@@ -232,7 +232,7 @@
                                 :src="e.thumbnail"
                                 rounded
                                 v-ripple
-                                class="noise-background cursor-pointer flex-grow-0"
+                                class="bg-grey-darken-4 cursor-pointer flex-grow-0"
                                 width="72"
                                 height="72"
                                 v-bind="props"
@@ -249,7 +249,7 @@
                         <v-img
                             :src="e.thumbnail"
                             rounded
-                            class="noise-background"
+                            class="bg-grey-darken-4"
                             width="150"
                             height="150"
                         ></v-img>
@@ -463,6 +463,9 @@ const watermarkConfig = reactive({
         },
     },
 });
+
+// 预加载示例水印图片
+document.createElement('img').src = watermarkConfig.image;
 
 const image = useTemplateRef('image');
 const imageWidth = ref(0);
