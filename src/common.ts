@@ -7,10 +7,10 @@ export const src2image = (src: string) =>
         img.src = src;
     });
 
-// biome-ignore lint/suspicious/noExplicitAny: reason
 // 只能同时有一个async function在运行
 // 如果在运行的时候又要运行一次，则后者立即返回，前者运行结束后再运行一次
 // 主要用于画图，加载字体等可能需要较长时间，避免重复运行
+// biome-ignore lint/suspicious/noExplicitAny: reason
 export const asyncAtATime = <T extends (...args: any[]) => Promise<void>>(fn: T): T => {
     let running = false;
     let delayed = false;
@@ -32,4 +32,12 @@ export const asyncAtATime = <T extends (...args: any[]) => Promise<void>>(fn: T)
         }
     };
     return wrapped as T;
+};
+
+export const blobDownload = (blob: Blob, filename: string) => {
+    const el = document.createElement('a');
+    el.download = filename;
+    el.href = URL.createObjectURL(blob);
+    el.click();
+    URL.revokeObjectURL(el.href);
 };

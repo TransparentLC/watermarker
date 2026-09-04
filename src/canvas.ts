@@ -7,6 +7,7 @@ canvas.style.maxHeight = 'max(160px,33.3333vh)';
 
 export const watermarkCanvas = canvas.cloneNode(true) as HTMLCanvasElement;
 export const imageCanvas = canvas.cloneNode(true) as HTMLCanvasElement;
+imageCanvas.style.touchAction = 'none';
 // biome-ignore lint/style/noNonNullAssertion: reason
 export const watermarkCtx = watermarkCanvas.getContext('2d')!;
 // biome-ignore lint/style/noNonNullAssertion: reason

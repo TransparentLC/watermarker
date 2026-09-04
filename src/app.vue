@@ -11,10 +11,10 @@
             <v-container class="pa-0">
                 <v-tabs-window v-model="tab">
                     <v-tabs-window-item value="watermark-editor" class="pa-4">
-                        <watermark-editor :app-bar-append="tab === 'watermark-editor'"></watermark-editor>
+                        <watermark-editor :active="tab === 'watermark-editor'"></watermark-editor>
                     </v-tabs-window-item>
                     <v-tabs-window-item value="image-editor" class="pa-4">
-                        <image-editor></image-editor>
+                        <image-editor :active="tab === 'image-editor'"></image-editor>
                     </v-tabs-window-item>
                     <v-tabs-window-item value="about" class="pa-4">
                         <p>快速为证件照、小样图、版权图等敏感照片添加全屏水印。</p>
@@ -63,6 +63,10 @@
                                 <p><strong>是否可以制作○○样式的水印/以○○方式加水印？</strong></p>
                                 <p>如果方便实现的话：会考虑的！</p>
                                 <p>如果实现很麻烦或配置很复杂的话：还是直接用 Photoshop 等图像编辑软件吧……</p>
+                            </li>
+                            <li>
+                                <p><strong>能不能添加暗水印？</strong></p>
+                                <p>不能。</p>
                             </li>
                         </ul>
                         <h4 class="text-title-large">借物表</h4>

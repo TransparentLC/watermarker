@@ -340,7 +340,7 @@
         </v-tabs-window-item>
     </v-tabs-window>
 
-    <teleport v-if="appBarAppend" defer to="#app-bar-append">
+    <teleport v-if="active" defer to="#app-bar-append">
         <v-tooltip text="保存水印">
             <template v-slot:activator="{ props }">
                 <v-btn
@@ -366,10 +366,10 @@ import {
 import selectFiles from 'select-files';
 import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
 import { watermarkCanvas as canvas, watermarkCanvasSize as canvasSize, watermarkCtx as ctx } from '../canvas';
-import { asyncAtATime, src2image } from '../common';
+import { asyncAtATime, blobDownload, src2image } from '../common';
 import webfonts from '../webfont.json';
 
-defineProps<{ appBarAppend: boolean }>();
+defineProps<{ active: boolean }>();
 
 const container = useTemplateRef('canvas-container');
 onMounted(() => {
@@ -638,10 +638,6 @@ const saveWatermark = async () => {
     const blob = await new Promise<Blob>((resolve, reject) =>
         canvas.toBlob(blob => (blob ? resolve(blob) : reject()), 'image/png'),
     );
-    const el = document.createElement('a');
-    el.download = `watermark-${Date.now()}.png`;
-    el.href = URL.createObjectURL(blob);
-    el.click();
-    URL.revokeObjectURL(el.href);
+    blobDownload(blob, `watermark-${Date.now()}`);
 };
 </script>
