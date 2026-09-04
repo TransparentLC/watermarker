@@ -79,7 +79,7 @@
             </v-container>
         </v-main>
 
-        <v-sheet class="position-sticky left-0 right-0 bottom-0 elevation-1">
+        <v-sheet class="position-fixed left-0 right-0 bottom-0 elevation-1" style="z-index:1">
             <v-tabs
                 v-model="tab"
                 color="primary"
