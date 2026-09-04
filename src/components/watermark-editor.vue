@@ -307,8 +307,8 @@
                         color="primary"
                         label="角度"
                         v-model="watermarkConfig.style.emboss.angle"
-                        :min="0"
-                        :max="360"
+                        :min="-180"
+                        :max="180"
                         :step="1"
                         class="align-center"
                         hide-details
@@ -317,8 +317,8 @@
                             <v-number-input
                                 color="primary"
                                 v-model="watermarkConfig.style.emboss.angle"
-                                :min="0"
-                                :max="360"
+                                :min="-180"
+                                :max="180"
                                 suffix="deg"
                                 controlVariant="stacked"
                                 density="compact"
@@ -458,7 +458,7 @@ const watermarkConfig = reactive({
             enabled: false,
             silhouetteMode: 'alpha' as 'alpha' | 'black-white' | 'white-black',
             radius: 2,
-            angle: 30,
+            angle: -30,
             grayBackground: false,
         },
     },
@@ -609,10 +609,10 @@ const watermarkDraw = asyncAtATime(async () => {
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.globalCompositeOperation = 'destination-in';
-            ctx.drawImage(embossOriginalImage, -embossPaddingWidth, embossPaddingHeight);
+            ctx.drawImage(embossOriginalImage, -embossPaddingWidth, -embossPaddingHeight);
             // 白色部分
             ctx.globalCompositeOperation = 'source-over';
-            ctx.drawImage(embossOriginalImage, embossPaddingWidth, -embossPaddingHeight);
+            ctx.drawImage(embossOriginalImage, embossPaddingWidth, embossPaddingHeight);
             // 去除中间的原始图案部分
             ctx.globalCompositeOperation = 'destination-out';
             ctx.drawImage(embossOriginalImage, 0, 0);
