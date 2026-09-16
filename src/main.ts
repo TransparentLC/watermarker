@@ -39,7 +39,7 @@ createApp(app)
                 themes: {
                     light: {
                         colors: {
-                            primary: 'rgb(189, 128, 159)',
+                            primary: '#bd809f',
                             'on-primary': '#fff',
                         },
                     },
@@ -47,7 +47,7 @@ createApp(app)
                         dark: true,
                         colors: {
                             background: '#0f0f0f',
-                            primary: 'rgb(189, 128, 159)',
+                            primary: '#bd809f',
                             'on-primary': '#fff',
                         },
                     },

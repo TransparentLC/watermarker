@@ -413,13 +413,15 @@ watch(
     async () => {
         const image = await src2image(imageConfig.image);
         const swatch = await getSwatches(image);
-        const colorTo = swatch.Vibrant!.color;
+        const colorTo = swatch.Vibrant?.color;
         theme.themes.value.light.colors['on-primary'] = theme.themes.value.dark.colors['on-primary'] =
             colorTo.oklch().l > 0.9 ? '#000' : '#fff';
         const colorFromVuetifyMatches =
             typeof theme.themes.value.light.colors.primary === 'string'
                 ? theme.themes.value.light.colors.primary.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
                 : null;
+        // biome-ignore lint/style/noNonNullAssertion: reason
+        const metaThemeColor = document.querySelector('meta[name="theme-color"]')!;
         if (colorFromVuetifyMatches) {
             const colorFrom = createColor(
                 parseInt(colorFromVuetifyMatches[1], 10),
@@ -434,16 +436,35 @@ watch(
                 if (ts === null) ts = tc;
                 const p = (tc - ts) / 1000;
                 if (p >= 1) {
-                    theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary = colorTo.css();
+                    metaThemeColor.setAttribute(
+                        'content',
+                        // biome-ignore lint/suspicious/noAssignInExpressions: reason
+                        (theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary =
+                            colorTo.css()),
+                    );
                     return;
                 }
-                theme.themes.value.light.colors.primary =
-                    theme.themes.value.dark.colors.primary = `rgb(${colorFromRGB.r + p * (colorToRGB.r - colorFromRGB.r)}, ${colorFromRGB.g + p * (colorToRGB.g - colorFromRGB.g)}, ${colorFromRGB.b + p * (colorToRGB.b - colorFromRGB.b)})`;
+                const colorCurrent = createColor(
+                    colorFromRGB.r + p * (colorToRGB.r - colorFromRGB.r),
+                    colorFromRGB.g + p * (colorToRGB.g - colorFromRGB.g),
+                    colorFromRGB.b + p * (colorToRGB.b - colorFromRGB.b),
+                    1,
+                );
+                metaThemeColor.setAttribute(
+                    'content',
+                    // biome-ignore lint/suspicious/noAssignInExpressions: reason
+                    (theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary =
+                        colorCurrent.css()),
+                );
                 requestAnimationFrame(anim);
             };
             requestAnimationFrame(anim);
         } else {
-            theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary = colorTo.css();
+            metaThemeColor.setAttribute(
+                'content',
+                // biome-ignore lint/suspicious/noAssignInExpressions: reason
+                (theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary = colorTo.css()),
+            );
         }
     },
 );
@@ -541,7 +562,7 @@ addEventListener('drop', e => {
     if (!props.active) return;
     e.preventDefault();
     e.stopPropagation();
-    const file = Array.from(e.dataTransfer!.files).find(e => e.type.startsWith('image/'));
+    const file = Array.from(e.dataTransfer?.files).find(e => e.type.startsWith('image/'));
     if (file) {
         URL.revokeObjectURL(imageConfig.image);
         imageConfig.image = URL.createObjectURL(file);
@@ -549,7 +570,7 @@ addEventListener('drop', e => {
 });
 addEventListener('paste', e => {
     if (!props.active) return;
-    const file = Array.from(e.clipboardData!.items)
+    const file = Array.from(e.clipboardData?.items)
         .map(e => e.getAsFile())
         .find(e => e?.type.startsWith('image/'));
     if (file) {
