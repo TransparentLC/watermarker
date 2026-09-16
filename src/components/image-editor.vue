@@ -542,4 +542,14 @@ addEventListener('drop', e => {
         imageConfig.image = URL.createObjectURL(file);
     }
 });
+addEventListener('paste', e => {
+    if (!props.active) return;
+    const file = Array.from(e.clipboardData!.items)
+        .map(e => e.getAsFile())
+        .find(e => e?.type.startsWith('image/'));
+    if (file) {
+        URL.revokeObjectURL(imageConfig.image);
+        imageConfig.image = URL.createObjectURL(file);
+    }
+});
 </script>

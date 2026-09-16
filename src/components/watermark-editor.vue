@@ -664,4 +664,15 @@ addEventListener('drop', e => {
         watermarkConfig.mode = 'image';
     }
 });
+addEventListener('paste', e => {
+    if (!props.active) return;
+    const file = Array.from(e.clipboardData!.items)
+        .map(e => e.getAsFile())
+        .find(e => e?.type.startsWith('image/'));
+    if (file) {
+        URL.revokeObjectURL(watermarkConfig.image);
+        watermarkConfig.image = URL.createObjectURL(file);
+        watermarkConfig.mode = 'image';
+    }
+});
 </script>
