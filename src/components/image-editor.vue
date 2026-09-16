@@ -413,7 +413,8 @@ watch(
     async () => {
         const image = await src2image(imageConfig.image);
         const swatch = await getSwatches(image);
-        const colorTo = swatch.Vibrant?.color;
+        // biome-ignore lint/style/noNonNullAssertion: reason
+        const colorTo = swatch.Vibrant!.color;
         theme.themes.value.light.colors['on-primary'] = theme.themes.value.dark.colors['on-primary'] =
             colorTo.oklch().l > 0.9 ? '#000' : '#fff';
         const colorFromVuetifyMatches =
@@ -559,18 +560,18 @@ addEventListener('dragover', e => {
     e.preventDefault();
 });
 addEventListener('drop', e => {
-    if (!props.active) return;
+    if (!props.active || !e.dataTransfer) return;
     e.preventDefault();
     e.stopPropagation();
-    const file = Array.from(e.dataTransfer?.files).find(e => e.type.startsWith('image/'));
+    const file = Array.from(e.dataTransfer.files).find(e => e.type.startsWith('image/'));
     if (file) {
         URL.revokeObjectURL(imageConfig.image);
         imageConfig.image = URL.createObjectURL(file);
     }
 });
 addEventListener('paste', e => {
-    if (!props.active) return;
-    const file = Array.from(e.clipboardData?.items)
+    if (!props.active || !e.clipboardData) return;
+    const file = Array.from(e.clipboardData.items)
         .map(e => e.getAsFile())
         .find(e => e?.type.startsWith('image/'));
     if (file) {

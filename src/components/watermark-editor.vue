@@ -658,10 +658,10 @@ addEventListener('dragover', e => {
     e.preventDefault();
 });
 addEventListener('drop', e => {
-    if (!props.active) return;
+    if (!props.active || !e.dataTransfer) return;
     e.preventDefault();
     e.stopPropagation();
-    const file = Array.from(e.dataTransfer?.files).find(e => e.type.startsWith('image/'));
+    const file = Array.from(e.dataTransfer.files).find(e => e.type.startsWith('image/'));
     if (file) {
         URL.revokeObjectURL(watermarkConfig.image);
         watermarkConfig.image = URL.createObjectURL(file);
@@ -669,8 +669,8 @@ addEventListener('drop', e => {
     }
 });
 addEventListener('paste', e => {
-    if (!props.active) return;
-    const file = Array.from(e.clipboardData?.items)
+    if (!props.active || !e.clipboardData) return;
+    const file = Array.from(e.clipboardData.items)
         .map(e => e.getAsFile())
         .find(e => e?.type.startsWith('image/'));
     if (file) {
