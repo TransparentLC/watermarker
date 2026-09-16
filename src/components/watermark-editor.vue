@@ -1,7 +1,11 @@
 <template>
-    <div ref="canvas-container" class="mb-4"></div>
-    <div class="text-center text-body-small my-4"><code>{{ canvasSize.width }} × {{ canvasSize.height }}</code></div>
-    <v-tabs v-model="tab" color="primary" density="compact" grow>
+    <div class="position-sticky bg-background" style="top:80px;z-index:1">
+        <div ref="canvas-container" class="mb-4"></div>
+        <div class="text-center text-body-small my-4"><code>{{ canvasSize.width }} × {{ canvasSize.height }}</code></div>
+        <v-divider class="mx-n4 px-4"></v-divider>
+    </div>
+
+    <v-tabs v-model="tab" color="primary" density="compact" grow class="mt-4">
         <v-tab value="source" class="flex-1-1-0">水印内容</v-tab>
         <v-tab value="style" class="flex-1-1-0">样式</v-tab>
     </v-tabs>

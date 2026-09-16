@@ -16,7 +16,7 @@
 
         <v-main>
             <v-container class="pa-0 pb-16">
-                <v-tabs-window v-model="tab">
+                <v-tabs-window v-model="tab" class="overflow-visible">
                     <v-tabs-window-item value="watermark-editor" class="pa-4">
                         <watermark-editor :active="tab === 'watermark-editor'"></watermark-editor>
                     </v-tabs-window-item>
@@ -83,9 +83,9 @@
                             <li>示例用图片水印：<a href="https://booth.pm/ja/items/8665012" rel="noopener noreferrer" target="_blank" class="text-primary">BOOTH @tenori-tei</a></li>
                             <li>背景图案：<a href="https://rouzao.com/user/copyright" rel="noopener noreferrer" target="_blank" class="text-primary">柔造（“版权保护”设置页面）</a></li>
                         </ul>
+                        <footer class="text-center text-medium-emphasis text-body-small mt-4">© 2026 ✨小透明・宸✨</footer>
                     </v-tabs-window-item>
                 </v-tabs-window>
-                <div class="text-center text-medium-emphasis text-body-small mb-4">© 2026 ✨小透明・宸✨</div>
             </v-container>
         </v-main>
 

@@ -1,8 +1,12 @@
 <template>
-    <div ref="canvas-container" class="mb-4"></div>
-    <div class="text-center text-body-small my-4">在画布上拖动和滑动滚轮可以改变水印位置和大小</div>
-    <div class="d-flex flex-column ga-4">
-        <v-btn color="primary" block @click="selectImage">选择图片</v-btn>
+    <div class="position-sticky bg-background" style="top:80px;z-index:1">
+        <div ref="canvas-container" class="mb-4"></div>
+        <div class="text-center text-body-small my-4">在画布上拖动和滑动滚轮可以改变水印位置和大小</div>
+        <v-btn color="primary" block @click="selectImage" class="my-4">选择图片</v-btn>
+        <v-divider class="mx-n4 px-4"></v-divider>
+    </div>
+
+    <div class="d-flex flex-column ga-4 mt-4">
         <v-switch
             v-model="imageConfig.repeat"
             label="全屏平铺"
