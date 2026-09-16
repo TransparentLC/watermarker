@@ -419,15 +419,15 @@ watch(
             colorTo.oklch().l > 0.9 ? '#000' : '#fff';
         const colorFromVuetifyMatches =
             typeof theme.themes.value.light.colors.primary === 'string'
-                ? theme.themes.value.light.colors.primary.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
+                ? theme.themes.value.light.colors.primary.match(/^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/)
                 : null;
         // biome-ignore lint/style/noNonNullAssertion: reason
         const metaThemeColor = document.querySelector('meta[name="theme-color"]')!;
         if (colorFromVuetifyMatches) {
             const colorFrom = createColor(
-                parseInt(colorFromVuetifyMatches[1], 10),
-                parseInt(colorFromVuetifyMatches[2], 10),
-                parseInt(colorFromVuetifyMatches[3], 10),
+                parseInt(colorFromVuetifyMatches[1], 16),
+                parseInt(colorFromVuetifyMatches[2], 16),
+                parseInt(colorFromVuetifyMatches[3], 16),
                 1,
             );
             const colorFromRGB = colorFrom.rgb();
@@ -441,21 +441,21 @@ watch(
                         'content',
                         // biome-ignore lint/suspicious/noAssignInExpressions: reason
                         (theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary =
-                            colorTo.css()),
+                            colorTo.hex()),
                     );
                     return;
                 }
                 const colorCurrent = createColor(
-                    colorFromRGB.r + p * (colorToRGB.r - colorFromRGB.r),
-                    colorFromRGB.g + p * (colorToRGB.g - colorFromRGB.g),
-                    colorFromRGB.b + p * (colorToRGB.b - colorFromRGB.b),
+                    Math.round(colorFromRGB.r + p * (colorToRGB.r - colorFromRGB.r)),
+                    Math.round(colorFromRGB.g + p * (colorToRGB.g - colorFromRGB.g)),
+                    Math.round(colorFromRGB.b + p * (colorToRGB.b - colorFromRGB.b)),
                     1,
                 );
                 metaThemeColor.setAttribute(
                     'content',
                     // biome-ignore lint/suspicious/noAssignInExpressions: reason
                     (theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary =
-                        colorCurrent.css()),
+                        colorCurrent.hex()),
                 );
                 requestAnimationFrame(anim);
             };
@@ -464,7 +464,7 @@ watch(
             metaThemeColor.setAttribute(
                 'content',
                 // biome-ignore lint/suspicious/noAssignInExpressions: reason
-                (theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary = colorTo.css()),
+                (theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary = colorTo.hex()),
             );
         }
     },
