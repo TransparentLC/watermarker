@@ -12,11 +12,11 @@
             class="ml-2"
         ></v-switch>
         <v-label>排版预设</v-label>
-        <div class="d-flex ga-2">
-            <v-btn class="flex-grow-1" @click="applyPreset('center')">单个居中</v-btn>
-            <v-btn class="flex-grow-1" @click="applyPreset('bottom-right')">单个右下</v-btn>
-            <v-btn class="flex-grow-1" @click="applyPreset('2x2-tiled')">2×2 平铺</v-btn>
-            <v-btn class="flex-grow-1" @click="applyPreset('3x3-tiled')">3×3 平铺</v-btn>
+        <div class="ga-2" style="display:grid" :style="{'grid-template-columns': `repeat(${display.width.value < 400 ? 2 : 4},1fr)`}">
+            <v-btn block @click="applyPreset('center')">单个居中</v-btn>
+            <v-btn block @click="applyPreset('bottom-right')">单个右下</v-btn>
+            <v-btn block @click="applyPreset('2x2-tiled')">2×2 平铺</v-btn>
+            <v-btn block @click="applyPreset('3x3-tiled')">3×3 平铺</v-btn>
         </div>
         <v-radio-group
             label="混合模式"
@@ -290,13 +290,14 @@ import { mdiContentSave } from '@mdi/js';
 import { createColor, getSwatches } from 'colorthief';
 import selectFiles from 'select-files';
 import { nextTick, onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
-import { useTheme } from 'vuetify';
+import { useDisplay, useTheme } from 'vuetify';
 import { imageCanvas as canvas, imageCtx as ctx, watermarkCanvas } from '../canvas';
 import { asyncAtATime, blobDownload, src2image } from '../common';
 
 const props = defineProps<{ active: boolean }>();
 
 const theme = useTheme();
+const display = useDisplay();
 
 const container = useTemplateRef('canvas-container');
 onMounted(() => {
