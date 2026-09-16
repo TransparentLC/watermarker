@@ -287,12 +287,16 @@
 
 <script setup lang="ts">
 import { mdiContentSave } from '@mdi/js';
+import { createColor, getSwatches } from 'colorthief';
 import selectFiles from 'select-files';
 import { nextTick, onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
+import { useTheme } from 'vuetify';
 import { imageCanvas as canvas, imageCtx as ctx, watermarkCanvas } from '../canvas';
 import { asyncAtATime, blobDownload, src2image } from '../common';
 
 const props = defineProps<{ active: boolean }>();
+
+const theme = useTheme();
 
 const container = useTemplateRef('canvas-container');
 onMounted(() => {
@@ -399,6 +403,45 @@ const imageDraw = asyncAtATime(async () => {
 
 onMounted(imageDraw);
 watch([imageConfig, () => props.active], imageDraw);
+watch(
+    () => imageConfig.image,
+    async () => {
+        const image = await src2image(imageConfig.image);
+        const swatch = await getSwatches(image);
+        const colorTo = swatch.Vibrant!.color;
+        theme.themes.value.light.colors['on-primary'] = theme.themes.value.dark.colors['on-primary'] =
+            colorTo.oklch().l > 0.9 ? '#000' : '#fff';
+        const colorFromVuetifyMatches =
+            typeof theme.themes.value.light.colors.primary === 'string'
+                ? theme.themes.value.light.colors.primary.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
+                : null;
+        if (colorFromVuetifyMatches) {
+            const colorFrom = createColor(
+                parseInt(colorFromVuetifyMatches[1], 10),
+                parseInt(colorFromVuetifyMatches[2], 10),
+                parseInt(colorFromVuetifyMatches[3], 10),
+                1,
+            );
+            const colorFromRGB = colorFrom.rgb();
+            const colorToRGB = colorTo.rgb();
+            let ts: number | null = null;
+            const anim = (tc: DOMHighResTimeStamp) => {
+                if (ts === null) ts = tc;
+                const p = (tc - ts) / 1000;
+                if (p >= 1) {
+                    theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary = colorTo.css();
+                    return;
+                }
+                theme.themes.value.light.colors.primary =
+                    theme.themes.value.dark.colors.primary = `rgb(${colorFromRGB.r + p * (colorToRGB.r - colorFromRGB.r)}, ${colorFromRGB.g + p * (colorToRGB.g - colorFromRGB.g)}, ${colorFromRGB.b + p * (colorToRGB.b - colorFromRGB.b)})`;
+                requestAnimationFrame(anim);
+            };
+            requestAnimationFrame(anim);
+        } else {
+            theme.themes.value.light.colors.primary = theme.themes.value.dark.colors.primary = colorTo.css();
+        }
+    },
+);
 
 const selectImage = async () => {
     const file = await selectFiles({ accept: 'image/*' }).then(files => files?.[0]);
