@@ -16,7 +16,7 @@
 
         <v-main>
             <v-container class="pa-0 pb-16">
-                <v-tabs-window v-model="tab" class="overflow-visible">
+                <v-tabs-window v-model="tab" style="overflow:clip visible">
                     <v-tabs-window-item value="watermark-editor" class="pa-4">
                         <watermark-editor :active="tab === 'watermark-editor'"></watermark-editor>
                     </v-tabs-window-item>
