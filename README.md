@@ -2,7 +2,7 @@
 
 [<picture><source media="(prefers-color-scheme:dark)" srcset="https://notbyai.fyi/img/developed-by-human-not-by-ai-black-cn.svg"><img src="https://notbyai.fyi/img/developed-by-human-not-by-ai-white-cn.svg" alt="Not By AI" height="20"></picture>](https://notbyai.fyi/)
 
-快速为证件照、小样图、版权图等敏感照片添加全屏水印。[去这里使用](https://akarin.dev/watermarker/)
+快速制作个性化文字、图片和浮雕水印，为证件照、小样图、版权图等敏感照片添加全屏水印。[去这里使用](https://akarin.dev/watermarker/)
 
 ![](https://github.com/user-attachments/assets/d567e9a3-b469-49a1-a020-5627ce7e5dd2)
 

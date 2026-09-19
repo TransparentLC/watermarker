@@ -24,7 +24,7 @@
                         <image-editor :active="tab === 'image-editor'"></image-editor>
                     </v-tabs-window-item>
                     <v-tabs-window-item value="about" class="pa-4">
-                        <p>快速为证件照、小样图、版权图等敏感照片添加全屏水印。</p>
+                        <p>快速制作个性化文字、图片和浮雕水印，为证件照、小样图、版权图等敏感照片添加全屏水印。</p>
                         <p>这个小工具有很多模仿开源的 Android APP <a href="https://github.com/rosuH/EasyWatermark" rel="noopener noreferrer" target="_blank" class="text-primary">“简单水印”</a>的地方，但是我觉得有一个可以跨平台使用的版本会更好 (｡•̀ᴗ-)✧</p>
                         <p>新版本使用 Vue 3 + Vuetify 完全重写，界面更美观，功能更丰富！</p>
                         <p><del>名字是随便取的，图标是随便做的，不要在意……</del></p>
