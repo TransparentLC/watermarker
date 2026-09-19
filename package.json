@@ -16,12 +16,12 @@
         "colorthief": "^3.5.0",
         "select-files": "^1.0.1",
         "vite-plugin-vuetify": "^2.1.3",
-        "vue": "^3.5.41",
+        "vue": "^3.5.43",
         "vuetify": "^4.2.1"
     },
     "devDependencies": {
-        "@biomejs/biome": "^2.5.13",
-        "@types/node": "^26.5.1",
+        "@biomejs/biome": "^2.5.14",
+        "@types/node": "^26.6.1",
         "@types/text-to-svg": "^3.1.4",
         "@vitejs/plugin-vue": "^6.0.9",
         "@vue/tsconfig": "^0.9.1",
