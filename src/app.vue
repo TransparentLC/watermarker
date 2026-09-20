@@ -24,6 +24,9 @@
                         <image-editor :active="tab === 'image-editor'"></image-editor>
                     </v-tabs-window-item>
                     <v-tabs-window-item value="about" class="pa-4">
+                        <p>
+                            <a href="https://github.com/TransparentLC/watermarker" rel="noopener noreferrer" target="_blank" class="text-primary"><img src="https://img.shields.io/github/stars/TransparentLC/watermarker?style=social"></a> <a href="https://notbyai.fyi/" rel="noopener noreferrer" target="_blank" class="text-primary"><picture><source media="(prefers-color-scheme:dark)" srcset="https://notbyai.fyi/img/developed-by-human-not-by-ai-black-cn.svg"><img src="https://notbyai.fyi/img/developed-by-human-not-by-ai-white-cn.svg" alt="Not By AI" height="20"></picture></a>
+                        </p>
                         <p>快速制作个性化文字、图片和浮雕水印，为证件照、小样图、版权图等敏感照片添加全屏水印。</p>
                         <p>这个小工具有很多模仿开源的 Android APP <a href="https://github.com/rosuH/EasyWatermark" rel="noopener noreferrer" target="_blank" class="text-primary">“简单水印”</a>的地方，但是我觉得有一个可以跨平台使用的版本会更好 (｡•̀ᴗ-)✧</p>
                         <p>新版本使用 Vue 3 + Vuetify 完全重写，界面更美观，功能更丰富！</p>
