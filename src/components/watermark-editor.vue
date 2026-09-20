@@ -344,6 +344,25 @@
         </v-tabs-window-item>
     </v-tabs-window>
 
+    <v-dialog v-model="saveWatermarkDialogActive" max-width="720">
+        <template v-slot:default="{ isActive }">
+            <v-card title="保存水印">
+                <v-card-text>
+                    <v-img :src="saveWatermarkDialogSrc" class="rounded chessboard-background"></v-img>
+                    <div class="text-center text-body-small mt-4">请长按/右键图片进行另存为</div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        text="关闭"
+                        color="primary"
+                        @click="isActive.value = false"
+                    ></v-btn>
+                </v-card-actions>
+            </v-card>
+        </template>
+    </v-dialog>
+
     <teleport v-if="active" defer to="#app-bar-append">
         <v-tooltip text="保存水印">
             <template v-slot:activator="{ props }">
@@ -645,12 +664,20 @@ const watermarkDraw = asyncAtATime(async () => {
 onMounted(watermarkDraw);
 watch(watermarkConfig, watermarkDraw);
 
+const saveWatermarkDialogActive = ref(false);
+const saveWatermarkDialogSrc = ref('');
 const saveWatermark = async () => {
     await watermarkDraw();
     const blob = await new Promise<Blob>((resolve, reject) =>
         canvas.toBlob(blob => (blob ? resolve(blob) : reject()), 'image/png'),
     );
-    blobDownload(blob, `watermark-${Date.now()}`);
+    if (navigator.userAgent.includes('MicroMessenger') || navigator.userAgent.includes('MQQBrowser')) {
+        URL.revokeObjectURL(saveWatermarkDialogSrc.value);
+        saveWatermarkDialogSrc.value = URL.createObjectURL(blob);
+        saveWatermarkDialogActive.value = true;
+    } else {
+        blobDownload(blob, `watermark-${Date.now()}`);
+    }
 };
 
 addEventListener('dragover', e => {

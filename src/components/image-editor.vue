@@ -215,6 +215,25 @@
         </v-expand-transition>
     </div>
 
+    <v-dialog v-model="saveImageDialogActive" max-width="720">
+        <template v-slot:default="{ isActive }">
+            <v-card title="保存图片">
+                <v-card-text>
+                    <v-img :src="saveImageDialogSrc" class="rounded chessboard-background"></v-img>
+                    <div class="text-center text-body-small mt-4">请长按/右键图片进行另存为</div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        text="关闭"
+                        color="primary"
+                        @click="isActive.value = false"
+                    ></v-btn>
+                </v-card-actions>
+            </v-card>
+        </template>
+    </v-dialog>
+
     <teleport v-if="active" defer to="#app-bar-append">
         <v-dialog max-width="360">
             <template v-slot:activator="{ props: dialogProps }">
@@ -310,11 +329,19 @@ onMounted(() => {
 
 const saveFormat = ref<'image/jpeg' | 'image/webp' | 'image/png'>('image/jpeg');
 const saveQuality = ref(90);
+const saveImageDialogActive = ref(false);
+const saveImageDialogSrc = ref('');
 const saveImage = async () => {
     const blob = await new Promise<Blob>((resolve, reject) =>
         canvas.toBlob(blob => (blob ? resolve(blob) : reject()), saveFormat.value, saveQuality.value / 100),
     );
-    blobDownload(blob, `image-${Date.now()}`);
+    if (navigator.userAgent.includes('MicroMessenger') || navigator.userAgent.includes('MQQBrowser')) {
+        URL.revokeObjectURL(saveImageDialogSrc.value);
+        saveImageDialogSrc.value = URL.createObjectURL(blob);
+        saveImageDialogActive.value = true;
+    } else {
+        blobDownload(blob, `image-${Date.now()}`);
+    }
 };
 
 const imageConfig = reactive({
