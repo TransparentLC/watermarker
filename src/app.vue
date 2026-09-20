@@ -17,10 +17,10 @@
         <v-main>
             <v-container class="pa-0 pb-16">
                 <v-tabs-window v-model="tab" style="overflow:clip visible">
-                    <v-tabs-window-item value="watermark-editor" class="pa-4">
+                    <v-tabs-window-item value="watermark-editor" class="pa-4 pt-0">
                         <watermark-editor :active="tab === 'watermark-editor'"></watermark-editor>
                     </v-tabs-window-item>
-                    <v-tabs-window-item value="image-editor" class="pa-4">
+                    <v-tabs-window-item value="image-editor" class="pa-4 pt-0">
                         <image-editor :active="tab === 'image-editor'"></image-editor>
                     </v-tabs-window-item>
                     <v-tabs-window-item value="about" class="pa-4">

@@ -1,5 +1,5 @@
 <template>
-    <div class="position-sticky bg-background mx-n4 px-4" style="top:80px;z-index:1">
+    <div class="position-sticky bg-background mx-n4 px-4 pt-4" style="top:64px;z-index:2">
         <div ref="canvas-container" class="mb-4"></div>
         <div class="text-center text-body-small my-4"><code>{{ canvasSize.width }} × {{ canvasSize.height }}</code></div>
         <v-divider class="mx-n4 px-4"></v-divider>
