@@ -668,14 +668,13 @@ const saveWatermarkDialogActive = ref(false);
 const saveWatermarkDialogSrc = ref('');
 const saveWatermark = async () => {
     await watermarkDraw();
-    const blob = await new Promise<Blob>((resolve, reject) =>
-        canvas.toBlob(blob => (blob ? resolve(blob) : reject()), 'image/png'),
-    );
     if (navigator.userAgent.includes('MicroMessenger') || navigator.userAgent.includes('MQQBrowser')) {
-        URL.revokeObjectURL(saveWatermarkDialogSrc.value);
-        saveWatermarkDialogSrc.value = URL.createObjectURL(blob);
+        saveWatermarkDialogSrc.value = canvas.toDataURL('image/png');
         saveWatermarkDialogActive.value = true;
     } else {
+        const blob = await new Promise<Blob>((resolve, reject) =>
+            canvas.toBlob(blob => (blob ? resolve(blob) : reject()), 'image/png'),
+        );
         blobDownload(blob, `watermark-${Date.now()}`);
     }
 };

@@ -332,14 +332,13 @@ const saveQuality = ref(90);
 const saveImageDialogActive = ref(false);
 const saveImageDialogSrc = ref('');
 const saveImage = async () => {
-    const blob = await new Promise<Blob>((resolve, reject) =>
-        canvas.toBlob(blob => (blob ? resolve(blob) : reject()), saveFormat.value, saveQuality.value / 100),
-    );
     if (navigator.userAgent.includes('MicroMessenger') || navigator.userAgent.includes('MQQBrowser')) {
-        URL.revokeObjectURL(saveImageDialogSrc.value);
-        saveImageDialogSrc.value = URL.createObjectURL(blob);
+        saveImageDialogSrc.value = canvas.toDataURL(saveFormat.value, saveQuality.value / 100);
         saveImageDialogActive.value = true;
     } else {
+        const blob = await new Promise<Blob>((resolve, reject) =>
+            canvas.toBlob(blob => (blob ? resolve(blob) : reject()), saveFormat.value, saveQuality.value / 100),
+        );
         blobDownload(blob, `image-${Date.now()}`);
     }
 };
