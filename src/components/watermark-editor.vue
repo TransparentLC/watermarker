@@ -499,13 +499,13 @@ const image = useTemplateRef('image');
 const imageWidth = ref(0);
 const imageHeight = ref(0);
 const selectImage = async () => {
-    const file = await selectFiles({ accept: 'image/*' }).then(files => files?.[0]);
+    const file = await selectFiles({ accept: 'image/*;capture=camera' }).then(files => files?.[0]);
     if (!file) return;
     URL.revokeObjectURL(watermarkConfig.image);
     watermarkConfig.image = URL.createObjectURL(file);
 };
 const selectPattern = async () => {
-    const file = await selectFiles({ accept: 'image/*' }).then(files => files?.[0]);
+    const file = await selectFiles({ accept: 'image/*;capture=camera' }).then(files => files?.[0]);
     if (!file) return;
     const url = URL.createObjectURL(file);
     patterns.value.unshift({ pattern: url, thumbnail: url, stock: false });

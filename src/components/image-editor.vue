@@ -497,7 +497,7 @@ watch(
 );
 
 const selectImage = async () => {
-    const file = await selectFiles({ accept: 'image/*' }).then(files => files?.[0]);
+    const file = await selectFiles({ accept: 'image/*;capture=camera' }).then(files => files?.[0]);
     if (!file) return;
     URL.revokeObjectURL(imageConfig.image);
     imageConfig.image = URL.createObjectURL(file);
