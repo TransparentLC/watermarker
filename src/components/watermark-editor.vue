@@ -386,10 +386,10 @@ import {
     mdiFormatTextVariantOutline,
     mdiPlus,
 } from '@mdi/js';
-import selectFiles from 'select-files';
 import { onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
 import { watermarkCanvas as canvas, watermarkCanvasSize as canvasSize, watermarkCtx as ctx } from '../canvas';
 import { asyncAtATime, blobDownload, src2image } from '../common';
+import selectFiles from '../select-files';
 import webfonts from '../webfont.json';
 
 const props = defineProps<{ active: boolean }>();
@@ -499,13 +499,13 @@ const image = useTemplateRef('image');
 const imageWidth = ref(0);
 const imageHeight = ref(0);
 const selectImage = async () => {
-    const file = await selectFiles({ accept: 'image/*;capture=camera' }).then(files => files?.[0]);
+    const file = await selectFiles({ accept: 'image/*' }).then(files => files?.[0]);
     if (!file) return;
     URL.revokeObjectURL(watermarkConfig.image);
     watermarkConfig.image = URL.createObjectURL(file);
 };
 const selectPattern = async () => {
-    const file = await selectFiles({ accept: 'image/*;capture=camera' }).then(files => files?.[0]);
+    const file = await selectFiles({ accept: 'image/*' }).then(files => files?.[0]);
     if (!file) return;
     const url = URL.createObjectURL(file);
     patterns.value.unshift({ pattern: url, thumbnail: url, stock: false });

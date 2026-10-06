@@ -311,11 +311,11 @@
 <script setup lang="ts">
 import { mdiContentSave } from '@mdi/js';
 import { createColor, getSwatches } from 'colorthief';
-import selectFiles from 'select-files';
 import { nextTick, onMounted, reactive, ref, useTemplateRef, watch } from 'vue';
 import { useDisplay, useTheme } from 'vuetify';
 import { imageCanvas as canvas, imageCtx as ctx, watermarkCanvas } from '../canvas';
 import { asyncAtATime, blobDownload, src2image } from '../common';
+import selectFiles from '../select-files';
 
 const props = defineProps<{ active: boolean }>();
 
@@ -497,7 +497,7 @@ watch(
 );
 
 const selectImage = async () => {
-    const file = await selectFiles({ accept: 'image/*;capture=camera' }).then(files => files?.[0]);
+    const file = await selectFiles({ accept: 'image/*' }).then(files => files?.[0]);
     if (!file) return;
     URL.revokeObjectURL(imageConfig.image);
     imageConfig.image = URL.createObjectURL(file);
